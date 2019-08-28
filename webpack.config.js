@@ -27,7 +27,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'build'),
-    library: 'MyLibrary',
+    library: 'CallMeBack',
     libraryTarget: 'umd'
   },
   module: {
@@ -40,8 +40,8 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.s?css$/,
+        use: ['style-loader', 'css-loader',  "sass-loader"],
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
