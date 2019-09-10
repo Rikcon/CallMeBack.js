@@ -9,6 +9,7 @@ class CallMeBack {
     this.defaults = {
       dir: "rtl",
       endpoint: "https://retuts.org/callMeBack/endpoint",
+      tag: "callmeback_user",
       position: {
         right: 200,
         bottom: 50,
@@ -23,6 +24,7 @@ class CallMeBack {
           subheader: "Leave your phone number and we will call you back.",
           select_placeholder: "Country",
           submit: "Submit",
+          email_placeholder: "Email",
           overlay: {
             header: "Thank You!",
             body:
@@ -110,9 +112,24 @@ class CallMeBack {
         "            </div>\n" +
         '            <div class="callmeBack-modal__body">\n' +
         '                <form action="" id="callmeback_form">\n' +
-        '                    <div class="mdc-select" dir="rtl">\n' +
+        '<div class="callmeBack-modal__email-wrap" >\n' +
+        '                            <div class="retuts-material-input__wrap ' +
+        vm.options.dir +
+        '">\n' +
+        '                                <input type="email" name="email"\n' +
+        '                                       style="cursor:default; direction: ltr;text-align: right;" id="callmeback_email"\n' +
+        '                                       required tabindex="1"/>\n' +
+        '<!--                                <span class="bar"></span>-->\n' +
+        "                                <label>" +
+        vm.options.translations.modal.email_placeholder +
+        "</label>\n" +
+        "                </div>\n" +
+        "                            </div>\n" +
+        '                    <div class="mdc-select" dir="' +
+        vm.options.dir +
+        '">\n' +
         '                        <i class="mdc-select__dropdown-icon"></i>\n' +
-        '                        <select class="mdc-select__native-control" name="country">\n' +
+        '                        <select class="mdc-select__native-control" name="country" tabindex="2">\n' +
         '                            <option value="" disabled selected></option>\n' +
         '                            <option value="AF" data-code="93" >Afghanistan</option>\n' +
         '                            <option value="AL" data-code="355" >Albania</option>\n' +
@@ -364,7 +381,7 @@ class CallMeBack {
         "                        </div>\n" +
         '                        <div class="input-number__wrap">\n' +
         '                            <div class="retuts-material-input__wrap">\n' +
-        '                                <input type="number" name="number" id="callmeback_phone" required/>\n' +
+        '                                <input type="number" name="number" id="callmeback_phone" tabindex="3" required/>\n' +
         '<!--                                <span class="bar"></span>-->\n' +
         "<!--                                <label>numba</label>-->\n" +
         "                            </div>\n" +
@@ -459,10 +476,13 @@ class CallMeBack {
 
   formSubmit(event) {
     event.preventDefault();
+    let formData = new FormData(event.target);
+
+    formData.append("tag", this.options.tag);
 
     fetch(this.options.endpoint, {
       method: "POST",
-      body: new FormData(event.target)
+      body: formData
     })
       .catch(error => console.error("Error:", error))
       .then(function(response) {
